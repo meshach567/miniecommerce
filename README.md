@@ -18,7 +18,6 @@ This is the backend API for the E-Commerce platform built with Django REST Frame
 - PostgreSQL
 - pip (Python package manager)
 
-### Virtual Environment Setup
 
 
 ### Backend folder structure
@@ -54,7 +53,9 @@ ecommerce_backend/
     └── wsgi.py
 
 
-# Create virtual environment
+```
+
+###  Create virtual environment
 python -m venv env
 
 # Activate virtual environment
