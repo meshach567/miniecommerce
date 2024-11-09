@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,11 +22,26 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# Take environment variables from .env file
+environ.Env.read_env(BASE_DIR / '.env')
+
+# We are taking our secret key from .env file
+SECRET_KEY = env('SECRET_KEY')
+
+
+# Get from .env file if we are debugging or not
+DEBUG = env('DEBUG')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7i)!4i$%pmu91#*u!daheo!e#j23!x*y6rl^s#3cs6#oe74k@='
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -99,16 +115,30 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'miniecommerce',
-        'USER': 'postgres',
-        'PASSWORD': '1234567890',
-        'HOST': '127.0.0.1'
-    }
-}
+[...]
 
+SQLITE_DB_PATH =  os.path.join(BASE_DIR, env('SQLITE_DB_PATH'))
+if env('DATABASE_TYPE') == 'sqlite':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': SQLITE_DB_PATH,
+        }
+    }
+elif env('DATABASE_TYPE') == 'postgresql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env('POSTGRES_DB_NAME'),
+            'USER': env('POSTGRES_DB_USER'),
+            'PASSWORD': env('POSTGRES_DB_PASSWORD'),
+            'HOST': env('POSTGRES_DB_HOST'),
+            'PORT': env('POSTGRES_DB_PORT'),
+        }
+    }
+else:
+    raise ValueError("Unknown database type specified in DATABASE_TYPE.")
+[...]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
