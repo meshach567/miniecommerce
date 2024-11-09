@@ -24,6 +24,8 @@ This is the backend API for the E-Commerce platform built with Django REST Frame
 
 ```bash
 
+### Backend folder structure
+
 ecommerce_backend/
 ├── .env
 ├── .gitignore
@@ -52,7 +54,7 @@ ecommerce_backend/
     ├── urls.py
     └── wsgi.py
 
-    
+
 # Create virtual environment
 python -m venv env
 
