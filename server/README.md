@@ -53,8 +53,19 @@ ecommerce_backend/
     └── wsgi.py
 
 
+
+
+```
+### API Endpoints
+# Authentication Endpoints
+
+POST /auth/users/ - Register a new user
+POST /auth/jwt/create/ - Get JWT token
+POST /auth/jwt/refresh/ - Refresh JWT token
+POST /auth/jwt/verify/ - Verify JWT token
 ```
 
+```
 ###  Create virtual environment
 python -m venv env
 
@@ -108,3 +119,5 @@ python manage.py runserver
 pip freeze > requirements.txt
 
 pip install django-environ
+
+```
