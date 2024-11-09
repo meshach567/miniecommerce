@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-import environ
+from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,32 +25,32 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
 
-# Take environment variables from .env file
-environ.Env.read_env(BASE_DIR / '.env')
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# We are taking our secret key from .env file
-SECRET_KEY = env('SECRET_KEY')
-
-
-# Get from .env file if we are debugging or not
-DEBUG = env('DEBUG')
+ALLOWED_HOSTS = ['*']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+
+# Access environment variables
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+    }
+}
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -62,10 +65,10 @@ INSTALLED_APPS = [
     'rest_framework',  # These should be
     'djoser',         # two separate entries
     # "rest_framework.authtoken"
+    'core'
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:9000",
     "http://localhost:3000",  # Next.js admin
     "http://localhost:8080",  # Flutter dev server
 ]
@@ -77,6 +80,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
 
@@ -115,30 +123,6 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-[...]
-
-SQLITE_DB_PATH =  os.path.join(BASE_DIR, env('SQLITE_DB_PATH'))
-if env('DATABASE_TYPE') == 'sqlite':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': SQLITE_DB_PATH,
-        }
-    }
-elif env('DATABASE_TYPE') == 'postgresql':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env('POSTGRES_DB_NAME'),
-            'USER': env('POSTGRES_DB_USER'),
-            'PASSWORD': env('POSTGRES_DB_PASSWORD'),
-            'HOST': env('POSTGRES_DB_HOST'),
-            'PORT': env('POSTGRES_DB_PORT'),
-        }
-    }
-else:
-    raise ValueError("Unknown database type specified in DATABASE_TYPE.")
-[...]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -174,8 +158,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 # Base url to serve media files  
 MEDIA_URL = '/media/'  
