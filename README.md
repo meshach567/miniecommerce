@@ -20,7 +20,39 @@ This is the backend API for the E-Commerce platform built with Django REST Frame
 
 ### Virtual Environment Setup
 
+
+
 ```bash
+
+ecommerce_backend/
+├── .env
+├── .gitignore
+├── README.md
+├── requirements.txt
+├── manage.py
+├── core/
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── serializers.py
+│   ├── urls.py
+│   ├── views.py
+│   └── tests/
+│       ├── __init__.py
+│       ├── test_models.py
+│       ├── test_views.py
+│       └── test_serializers.py
+└── ecommerce_backend/
+    ├── __init__.py
+    ├── asgi.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+
+    
 # Create virtual environment
 python -m venv env
 
