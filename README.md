@@ -21,10 +21,9 @@ This is the backend API for the E-Commerce platform built with Django REST Frame
 ### Virtual Environment Setup
 
 
+### Backend folder structure
 
 ```bash
-
-### Backend folder structure
 
 ecommerce_backend/
 ├── .env
