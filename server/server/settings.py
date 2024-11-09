@@ -61,11 +61,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     "corsheaders",
-    'rest_framework',  # These should be
-    'djoser',         # two separate entries
-    # "rest_framework.authtoken"
-    'core'
+    'rest_framework',  
+    'rest_framework.authtoken',
+    'djoser',     
+        
+    'product',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -165,7 +167,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 MEDIA_URL = '/media/'  
   
 # Path where media is stored  
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

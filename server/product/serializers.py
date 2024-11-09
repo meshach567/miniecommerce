@@ -23,7 +23,7 @@ class OrderSerializer(serializers.ModelSerializer):
         item_data = validated_data.pop('items')
         order = Order.objects.create(**validated_data)
         
-        for item_data in items_data:
+        for item_data in item_data:
             OrderItem.objects.create(order=order, **item_data)
             
             
