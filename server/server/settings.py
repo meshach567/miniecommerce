@@ -45,11 +45,13 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',  # These should be
     'djoser',         # two separate entries
-    "rest_framework.authtoken"
+    # "rest_framework.authtoken"
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:9000",
+    "http://localhost:3000",  # Next.js admin
+    "http://localhost:8080",  # Flutter dev server
 ]
 
 
@@ -57,6 +59,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
