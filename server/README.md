@@ -88,6 +88,8 @@ django-admin startproject server
 
 dir
 
+l
+
 deactivate
 
 workon miniserver
